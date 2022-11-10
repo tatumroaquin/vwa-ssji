@@ -1,0 +1,11 @@
+{
+  "name": "ssji-simple",
+  "version": "1.0.0",
+  "description": "Simple SSJI Vulnerable Web App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Tatum Roaquin",
+  "license": "GPL-3.0-or-later"
+}

@@ -50,11 +50,11 @@ nft -a list ruleset
 nft delete rule inet filter input handle <handle number>
 ```
 
-<h4 align="center">technologies used</h4>
-<center>
-  <img alt="javascript" src="https://img.shields.io/badge/-NodeJS-black?logo=nodedotjs">
-  <img alt="javascript" src="https://img.shields.io/badge/-ExpressJS-black?logo=express">
-</center>
+<div align='center'>
+  <h4>technologies used</h4>
+  <img alt="javascript" src="https://img.shields.io/badge/-NodeJS-black?logo=nodedotjs" />
+  <img alt="javascript" src="https://img.shields.io/badge/-ExpressJS-black?logo=express" />
+</div>
 
 ---
 

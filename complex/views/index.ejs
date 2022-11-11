@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<div align='center'>
+<h1>The Cutlery Shop</h1>
+
+<div class="resize">
+<table id="cutlery-table" class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let c of cutleries) { %>
+    <tr>
+      <td><%= c.id %></td>
+      <td><%= c.name %></td>
+      <td><%= c.price %></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#cutlery-table').DataTable();
+});
+</script>
+
+<%- include('partials/footer') %>

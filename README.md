@@ -13,6 +13,8 @@ The repository contains two web applications `simple` and `complex`, both showca
 
 1. Install the LTS version of [NodeJS](https://nodejs.org/en/)
 2. Open Firewall ports 3000 and 8000
+3. Launch either `simple` or `complex`
+4. Inject some payloads and have fun
 
 <h3 align='center'>Windows Firewall</h3>
 
@@ -59,9 +61,9 @@ nft delete rule inet filter input handle <handle number>
 ---
 
 #### sources:
+<https://brutelogic.com.br/blog/dom-based-xss-the-3-sinks/>
 <https://exchange.xforce.ibmcloud.com/vulnerabilities/96730>  
 <https://portswigger.net/kb/issues/00100d00_server-side-javascript-code-injection>  
 <https://s1gnalcha0s.github.io/node/2015/01/31/SSJS-webshell-injection.html>  
 <https://www.exploit-db.com/exploits/40689>  
 <https://www.openwall.com/lists/oss-security/2014/09/30/10>
-

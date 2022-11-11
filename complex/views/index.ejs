@@ -3,7 +3,7 @@
 <div align='center'>
 <h1>The Cutlery Shop</h1>
 
-<div class="resize">
+<div class="resize shadow padded">
 <table id="cutlery-table" class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -13,21 +13,29 @@
     </tr>
   </thead>
   <tbody>
-    <% for (let c of cutleries) { %>
-    <tr>
-      <td><%= c.id %></td>
-      <td><%= c.name %></td>
-      <td><%= c.price %></td>
-    </tr>
-    <% } %>
   </tbody>
 </table>
 </div>
 
 <script>
 $(document).ready(function () {
-    $('#cutlery-table').DataTable();
+
+  localStorage.setItem('cutleries', '<%- JSON.stringify(cutleries) %>')
+
+  let cutleries = JSON.parse(localStorage.getItem('cutleries')).data
+
+  $.each(cutleries, function(_, cutlery) {
+    $('#cutlery-table tbody').append(`
+      <tr>
+        <td>${cutlery.id}</td>
+        <td>${cutlery.name}</td>
+        <td>${cutlery.price}</td>
+      </tr>
+    `)
+  })
+  $('#cutlery-table').DataTable();
 });
+
 </script>
 
 <%- include('partials/footer') %>

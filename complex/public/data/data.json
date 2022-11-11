@@ -1,8 +1,10 @@
-{ "data": [
-  { "id": "1", "name": "Wooden Spork", "price": "39.99" },
-  { "id": "2", "name": "Metal Spork", "price": "100.00" },
-  { "id": "3", "name": "Aluminum Spork", "price": "56.40" },
-  { "id": "4", "name": "Ceramic Spork", "price": "69.69" },
-  { "id": "5", "name": "Mortar Spork", "price": "420.69" },
-  { "id": "6", "name": "Tungsten Spork", "price": "123.45" }
-]}
+{
+  "data": [
+    { "id": "76e49db8-70a8-4147-988e-5ae8ede9292e", "name": "Wooden Spork", "price": "39.99" },
+    { "id": "1ba6f1b9-3617-404a-a9aa-a1307c78f1d4", "name": "Metal Spork", "price": "100.00" },
+    { "id": "e086a5cb-1595-47e3-94a8-9c063e6c327f", "name": "Aluminum Spork", "price": "56.40" },
+    { "id": "a1d5b057-8010-4a85-bc7c-74ab80e51553", "name": "Ceramic Spork", "price": "69.69" },
+    { "id": "2642a31e-98b0-43e4-b132-38f95cc6a688", "name": "Mortar Spork", "price": "420.69" },
+    { "id": "4dcb9afc-ef40-4301-bc42-53f4ce915b9c", "name": "Tungsten Spork", "price": "123.45" }
+  ]
+}

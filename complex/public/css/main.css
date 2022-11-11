@@ -1,6 +1,10 @@
 .resize {
   width: 50%;
 }
+.padded {
+  padding: 1rem;
+  margin: 1rem;
+}
 
 @media only screen and (max-width: 860px) {
   .resize {

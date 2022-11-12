@@ -7,17 +7,20 @@
 
 This project aims to demonstrate the SSJI (Server-side JavaScript Injection) vulnerability in [CVE-2014-7205](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-7205). Which opens the possibility of RCE (Remote Code Execution) on a target NodeJS Web Server.  
 
-The repository contains two web applications `simple` and `complex`, both showcase the same vulnerability. The instructions on how to run each app are contained within their respective folders.
+The repository contains two web applications [simple](./simple/) and `complex`, both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
 
-<h2 align='center'>Prerequisites</h2>
+Further explanations and steps of how to reproduce the attack, is contained within the `payload` folder together with the javascript payload used.
+
+<h2 align='center'>Prerequisite Instruction</h2>
 
 1. Install the LTS version of [NodeJS](https://nodejs.org/en/)
-2. Open Firewall ports 3000 and 8000
-3. Launch either `simple` or `complex`
+2. Open Firewall ports 3000 and 8000 for in-bound traffic
+3. Launch either `simple` or `complex` as a local server
 4. Inject some payloads and have fun
 
-<h3 align='center'>Windows Firewall</h3>
+<h2 align="center">Opening Firewall Ports</h2>
 
+### Windows Firewall
 ```
 # Add Rules
 netsh advfirewall firewall add rule name="SSJI 3000" dir=in protocl=tcp localport=3000 action=allow
@@ -28,8 +31,7 @@ netsh advfirewall firewall delete rule name="SSJI 3000"
 netsh advfirewall firewall delete rule name="SSJI 8000"
 ```
 
-<h3 align='center'>Linux IPTables</h3>
-
+### Linux IPTables
 ```
 # Add Rules
 iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
@@ -40,8 +42,7 @@ iptables -L --line-numbers
 iptables -D INPUT <line number>
 ```
 
-<h3 align='center'>Linux NFTables</h3>
-
+### Linux NFTables
 ```
 # Add Rules
 nft add rule inet filter input tcp dport 3000 accept comment \"allow 3000\"
@@ -61,7 +62,7 @@ nft delete rule inet filter input handle <handle number>
 ---
 
 #### sources:
-<https://brutelogic.com.br/blog/dom-based-xss-the-3-sinks/>
+<https://brutelogic.com.br/blog/dom-based-xss-the-3-sinks/>  
 <https://exchange.xforce.ibmcloud.com/vulnerabilities/96730>  
 <https://portswigger.net/kb/issues/00100d00_server-side-javascript-code-injection>  
 <https://s1gnalcha0s.github.io/node/2015/01/31/SSJS-webshell-injection.html>  

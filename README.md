@@ -7,15 +7,15 @@
 
 This project aims to demonstrate the SSJI (Server-side JavaScript Injection) vulnerability in [CVE-2014-7205](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-7205). Which opens the possibility of RCE (Remote Code Execution) on a target NodeJS Web Server.  
 
-The repository contains two web applications [simple](./simple/) and `complex`, both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
+The repository contains two web applications [*simple*](./simple/) and [*complex*](./complex/), both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
 
-Further explanations and steps of how to reproduce the attack, is contained within the `payload` folder together with the javascript payload used.
+Further explanations and steps of how to reproduce the attack, is contained within the [*payload*](./payload) folder together with the JavaScript payload used.
 
 <h2 align='center'>Prerequisite Instruction</h2>
 
 1. Install the LTS version of [NodeJS](https://nodejs.org/en/)
 2. Open Firewall ports 3000 and 8000 for in-bound traffic
-3. Launch either `simple` or `complex` as a local server
+3. Launch either one of the web apps as a local server
 4. Inject some payloads and have fun
 
 <h2 align="center">Opening Firewall Ports</h2>

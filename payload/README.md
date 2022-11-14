@@ -134,3 +134,6 @@ http://localhost:3000/hack?cmd=<command>
 # Example
 http://localhost:3000/hack?cmd=cat /etc/*-release
 ```
+
+### Result
+![webshell-screenshot](../images/webshell.png)

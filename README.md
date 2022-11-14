@@ -1,4 +1,4 @@
-<h1 align='center'>SSJI Web Application</h1>
+<h1 align='center'>SSJI Vulnerable Web Applications</h1>
 <h5 align='center'>10/11/2022</h5>
 
 <h3 align="center">Description</h3>

@@ -1,7 +1,7 @@
 <h1 align='center'>The Cutlery Shop</h1>
 <h5 align='center'>12/11/2022</h5>
 
-![tcs-screenshot](./public/assets/screenshot4.png)
+![tcs-screenshot](./public/assets/the-cutlery-shop.png)
 
 <h3 align='center'>Description</h3>
 

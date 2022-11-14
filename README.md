@@ -1,8 +1,6 @@
 <h1 align='center'>SSJI Web Application</h1>
 <h5 align='center'>10/11/2022</h5>
 
-![ssji-screenshot](./images/screenshot3.png)
-
 <h3 align="center">Description</h3>
 
 This project aims to demonstrate the SSJI (Server-side JavaScript Injection) vulnerability in [CVE-2014-7205](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-7205). Which opens the possibility of RCE (Remote Code Execution) on a target NodeJS Web Server.  
@@ -10,6 +8,14 @@ This project aims to demonstrate the SSJI (Server-side JavaScript Injection) vul
 The repository contains two web applications [*simple*](./simple/) and [*complex*](./complex/), both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
 
 Further explanations and steps of how to reproduce the attack, is contained within the [*payload*](./payload) folder together with the JavaScript payload used.
+
+<h5 align='center'>SSJI (Complex)</h5>
+
+![the-cutlery-shop](./images/the-cutlery-shop.png)
+
+<h5 align='center'>SSJI (Simple)</h5>
+
+![simple-ssji-app](./images/simple-ssji.png)
 
 <h2 align='center'>Prerequisite Instruction</h2>
 

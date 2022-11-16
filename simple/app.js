@@ -2,13 +2,17 @@ const http = require('http')
 const url = require('url')
 
 const app = http.createServer((req, res) => {
-  let year = new Date().getFullYear();
+  let route = req.url.split('?')[0];
+  let params = url.parse(req.url, true);
 
-  let params = url.parse(req.url, true)
-  if (params.query['year'])
-    eval(`year = ${params.query['year']}`);
+  if (route === '/') {
+    let year = new Date().getFullYear();
 
-  res.end(`<h1>The Year is ${year}</h1>`);
+    if (params.query['year'])
+      eval(`year = ${params.query['year']}`);
+
+    res.end(`<h1>The Year is ${year}</h1>`);
+  }
 })
 
 app.listen(3000, () => {

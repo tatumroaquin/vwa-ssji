@@ -1,10 +1,5 @@
 <h1 align="center">1 Initial Stage</h2>
 
-
-<div align="center">
-
-</div>
-
 `(h)` = hacker terminal, `(v)` = netcat reverse shell, `tcs` = The Cutlery Shop, `wity` = What Is The Year.
 
 ## 1.1 Start a netcat listener

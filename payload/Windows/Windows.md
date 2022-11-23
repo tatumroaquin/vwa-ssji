@@ -28,7 +28,7 @@ Open [inject.js](./inject.js) and modify it according to the IPv4 address of you
 ### Method 1 - Copy Paste
 Copy the contents of the [inject.js](./inject.js) file.
 ```
-type payload/inject.js | clip
+type payload/Windows/inject.js | clip
 ```
 And paste the contents of [inject.js](inject.js) into the `year` HTTP GET Query
 ```

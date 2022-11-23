@@ -1,63 +1,24 @@
-<h1 align='center'>SSJI Vulnerable Web Applications</h1>
+<h1 align='center'>VWA Server-Side JavaScript Injection</h1>
 <h5 align='center'>10/11/2022</h5>
 
 <h3 align="center">Description</h3>
 
-This project aims to demonstrate the SSJI (Server-side JavaScript Injection) vulnerability in [CVE-2014-7205](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-7205). Which opens the possibility of RCE (Remote Code Execution) on a target NodeJS Web Server.  
+This project is a [PoC](https://www.malwarebytes.com/glossary/proof-of-concept) to demonstrate the SSJI vulnerability in [CVE-2014-7205](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-7205), which opens the possibility of RCE (Remote Code Execution) on a target NodeJS Web Server.  
 
-The repository contains two web applications [*simple*](./simple/) and [*complex*](./complex/), both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
+The repository contains two web applications [*what-is-the-year*](./what-is-the-year/) and [*the-cutlery-shop*](./the-cutlery-shop/), both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
 
 Further explanations and steps of how to reproduce the attack, is contained within the [*payload*](./payload) folder together with the JavaScript payload used.
 
-<h5 align='center'>SSJI (Complex)</h5>
+---
+
+<h5 align='center'>The Cutlery Shop</h5>
 
 ![the-cutlery-shop](./images/the-cutlery-shop.png)
 
-<h5 align='center'>SSJI (Simple)</h5>
+<h5 align='center'>What is the year?</h5>
 
 ![simple-ssji-app](./images/simple-ssji.png)
 
-<h2 align='center'>Prerequisite Instruction</h2>
-
-1. Install the LTS version of [NodeJS](https://nodejs.org/en/)
-2. Open Firewall ports 3000 and 8000 for in-bound traffic
-3. Launch either one of the web apps as a local server
-4. Inject some payloads and have fun
-
-<h2 align="center">Opening Firewall Ports</h2>
-
-### Windows Firewall
-```
-# Add Rules
-netsh advfirewall firewall add rule name="SSJI 3000" dir=in protocl=tcp localport=3000 action=allow
-netsh advfirewall firewall add rule name="SSJI 8000" dir=in protocl=tcp localport=8000 action=allow
-
-# Delete Rules 
-netsh advfirewall firewall delete rule name="SSJI 3000"
-netsh advfirewall firewall delete rule name="SSJI 8000"
-```
-
-### Linux IPTables
-```
-# Add Rules
-iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
-iptables -I INPUT -p tcp --dport 8000 -j ACCEPT
-
-# Delete Rules
-iptables -L --line-numbers
-iptables -D INPUT <line number>
-```
-
-### Linux NFTables
-```
-# Add Rules
-nft add rule inet filter input tcp dport 3000 accept comment \"allow 3000\"
-nft add rule inet filter input tcp dport 8000 accept comment \"allow 8000\"
-
-# Delete Rules
-nft -a list ruleset
-nft delete rule inet filter input handle <handle number>
-```
 
 <div align='center'>
   <h4>technologies used</h4>

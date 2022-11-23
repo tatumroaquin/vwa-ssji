@@ -68,7 +68,7 @@ views
 ## 2.1 Webshell Backdoor
 The reverse shell provides us the privilege of the compromised user, but it is a temporary foothold in the system. To gain persistence, we can introduce a webshell as a secondary entry into the system.
 
-The [wity-webshell.js](./../Webshells/wity-webshell.js) and [tcs-webshell.js](./Webshells/tcs-webshell.js) files contains a snippet of code prepared in advance, which adds a webshell to the NodeJS application. You must use the appropriate webshell file matching the name of the web app you are running.
+The [wity-webshell.js](../Webshells/wity-webshell.js) and [tcs-webshell.js](../Webshells/tcs-webshell.js) files contains a snippet of code prepared in advance, which adds a webshell to the NodeJS application. You must use the appropriate webshell file matching the name of the web app you are running.
 
 __Note:__ `tcs` = The Cutlery Shop, `wity` = What Is The Year
 

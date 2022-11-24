@@ -18,6 +18,7 @@ app.get('/', (_, res) => {
   res.render('index', { cutleries })
 })
 
+// CREATE
 app.get('/new', (_, res) => {
   res.render('pages/create')
 })
@@ -35,6 +36,52 @@ app.post('/new', (req, res) => {
   }
   cutleries.data.push({ "id": uuid(), "name": name, "price": price })
   res.redirect('/')
+})
+
+// UPDATE
+app.get('/edit/:id', (req, res) => {
+  let id = req.params.id;
+  let cutlery = cutleries.data.find(c => c.id === id)
+  if (cutlery) {
+    res.render('pages/update', { cutlery })
+  } else {
+    res.render('pages/error', { message: "Item not found." })
+  }
+})
+
+app.post('/edit/:id', (req, res) => {
+  let id, name, price;
+  if (req.body.name && req.body.price) {
+    try {
+      eval('id = "' + req.params.id + '"')
+      eval('name = "' + req.body.name + '"')
+      eval('price = ' + req.body.price)
+
+      let index = cutleries.data.findIndex(c => c.id === id)
+      cutleries.data[index] = {
+        id,
+        name,
+        price,
+      }
+    } catch (err) {
+      res.render('/pages/error', { message: "An error occurred while updating the item." })
+    }
+  }
+  res.redirect('/')
+})
+
+app.get('/delete/:id', (req, res) => {
+  let id = req.params.id
+  let cutlery = cutleries.data.find(c => c.id === id)
+  if (!cutlery)
+    res.render('pages/error', { message: 'Item does not exist' })
+
+  cutleries.data = cutleries.data.filter(c => c.id !== id)
+  res.redirect('/')
+})
+
+app.get('*', (_, res) => {
+  res.render('pages/error', { message: "404 not found" })
 })
 
 app.listen(3000, () => {

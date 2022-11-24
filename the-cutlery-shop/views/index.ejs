@@ -10,6 +10,7 @@
       <th>Id</th>
       <th>Name</th>
       <th>Price</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -30,6 +31,10 @@ $(document).ready(function () {
         <td>${cutlery.id}</td>
         <td>${cutlery.name}</td>
         <td>${cutlery.price}</td>
+        <td>
+          <a href="/edit/${cutlery.id}" class="btn btn-primary">Edit</a>
+          <a href="/delete/${cutlery.id}" class="btn btn-danger">Delete</a>
+        </td>
       </tr>
     `)
   })

@@ -5,7 +5,9 @@
   padding: 1rem;
   margin: 1rem;
 }
-
+.error {
+  color: orangered;
+}
 @media only screen and (max-width: 860px) {
   .resize {
     width: 100%;

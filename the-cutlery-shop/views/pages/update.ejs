@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+
+<h1 align='center'>Edit Cutlery</h1>
+<div class="resize mx-auto shadow padded">
+  <form method="POST" action="/edit/<%= cutlery.id %>">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" id="name" name="name" class="form-control" value="<%= cutlery.name %>">
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input type="text" id="price" name="price" class="form-control" value="<%= cutlery.price %>">
+    </div>
+    <button class="btn btn-primary">Update</button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

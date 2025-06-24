@@ -11,12 +11,3 @@
 <h2 align='center'>Intended Usage</h3>
 
 You can do the basic __CRUD (Create, Read, Update, Delete)__ operations on that data. Which means populating the form fields provided with the correct data and sending it via __POST__ request.
-
-<h2 align='center'><a href="../payload/README.md">Exploitation</a></h3>
-<h6 align='center'>click the subheading</h6>
-
-JavaScript code can be injected in the form fields using string escapes:
-![string-escape](../images/string-escape.png)
-
-Alternatively, directly inject the code in fields that don't cast to a string:
-![direct-inject](../images/direct-inject.png)

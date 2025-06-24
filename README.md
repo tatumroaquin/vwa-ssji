@@ -7,18 +7,18 @@ This project is a [PoC](https://www.malwarebytes.com/glossary/proof-of-concept) 
 
 The repository contains two web applications [*what-is-the-year*](./what-is-the-year/) and [*the-cutlery-shop*](./the-cutlery-shop/), both showcase the same vulnerability. Written instructions on how to run each app are contained within their respective folders.
 
-Further explanations and steps of how to reproduce the attack, is contained within the [*payload*](./payload) folder together with the JavaScript payload used.
-
 ---
 
 <h5 align='center'>The Cutlery Shop</h5>
 
 ![the-cutlery-shop](./images/the-cutlery-shop.png)
 
+
 <h5 align='center'>What is the year?</h5>
 
 ![simple-ssji-app](./images/simple-ssji.png)
 
+* Visit this [write-up](https://tatumroaquin.dev/blog/how-to-hack-wity/) for details on exploitation of "What's the Year".
 
 <div align='center'>
   <h4>technologies used</h4>
